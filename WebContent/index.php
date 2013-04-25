@@ -1,2 +1,39 @@
-Add your content dubby! Hey this is master
+<html>
+	<body>Hi
+		<?php
+include("../config/DBConfig.php");
+if (!class_exists('User')) {
+    include("../objects/user.php");
+}
+class MemberBiz
+{
+    public function loginUser($id, $password)
+    {
+		$user = new User();
+		$dbConfig = new DBConfig();
+		$count = 0;
+		
+		$con = $dbConfig->connectDB();
+		$query = ("select * from users where userid='".$id."' and passwords='".$password."'");
+		$result = mysql_query($query, $con);
+		while($row = mysql_fetch_array($result)){
+			$user->setId($row['id']);
+			$user->setUserId($row['userid']);
+			$user->setPassword($row['passwords']);
+			$user->setFirstname($row['firstname']);
+			$count++;
+		}
+		
+		mysql_close($con);
+		if($count==1){
+			return $user;
+		}else{
+			return null;
+		}
+    }
+}
+echo &MemberBiz;
+?>
+	</body>
+</html>
 
